@@ -7,16 +7,16 @@ public final class StreamedUi {
 
     private final BufferedReader in;
     private final PrintWriter out;
-    private final Deserializer deserializer;
+    private final StreamedIoRepresentation streamedIoRepresentation;
 
-    public StreamedUi(BufferedReader in, PrintWriter out, Deserializer deserializer) {
+    public StreamedUi(BufferedReader in, PrintWriter out, StreamedIoRepresentation streamedIoRepresentation) {
         this.in = in;
         this.out = out;
-        this.deserializer = deserializer;
+        this.streamedIoRepresentation = streamedIoRepresentation;
     }
 
     public void tick() {
-        Universe universe = deserializer.xxx(in);
+        Universe universe = streamedIoRepresentation.deserialize(in);
         universe.tick();
     }
 }

@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 public final class StreamedUiTest {
     private final BufferedReader anyInput = dummy(BufferedReader.class);
     private final PrintWriter dummyOutput = dummy(PrintWriter.class);
-    private final Deserializer deserializer = mock(Deserializer.class);
+    private final StreamedIoRepresentation streamedIoRepresentation = mock(StreamedIoRepresentation.class);
     private final Universe universe = mock(Universe.class);
 
     private <T> T dummy(Class<T> type) {
@@ -20,8 +20,8 @@ public final class StreamedUiTest {
 
     @Test public void
     creates_universe_and_ticks_it() {
-        StreamedUi ui = new StreamedUi(anyInput, dummyOutput, deserializer);
-        when(deserializer.xxx(anyInput)).thenReturn(universe);
+        StreamedUi ui = new StreamedUi(anyInput, dummyOutput, streamedIoRepresentation);
+        when(streamedIoRepresentation.deserialize(anyInput)).thenReturn(universe);
 
         ui.tick();
 
