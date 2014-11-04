@@ -46,7 +46,7 @@ public final class GameOfLifeGuidanceTest {
     }
 
     private StreamedUi createUiWith(BufferedReader in, PrintWriter out) {
-        return new StreamedUi(in, out);
+        return new StreamedUi(in, out, null);
     }
 
     private String theOutput() {
