@@ -1,5 +1,5 @@
 package com.noodlesandwich.gameoflife;
 
 public interface Universe {
-    void tick();
+    Universe tick();
 }
