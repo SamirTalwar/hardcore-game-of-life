@@ -79,6 +79,11 @@ public final class UniverseTest {
         public final int hashCode() {
             return this.livingCellPositions.hashCode();
         }
+
+        @Override
+        public String toString() {
+            return getClass().getSimpleName() + ": " + this.livingCellPositions.toString();
+        }
     }
 
     private static List<CellPosition> blockAt(int x, int y) {
@@ -124,6 +129,12 @@ public final class UniverseTest {
         @Override
         public int hashCode() {
             return Objects.hash(x, y);
+        }
+
+        @Override
+        public String toString() {
+            // return String.format("(%d,%d)", x, y);
+            return "(" + x + "," + y + ")";
         }
     }
 }
