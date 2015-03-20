@@ -2,7 +2,6 @@ package com.noodlesandwich.gameoflife;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -23,7 +22,6 @@ public final class UniverseTest {
 //        assertThat(nextGenerationUniverse, is(empty()));
 //    }
 
-    @Ignore
     @Test public void
     a_block_is_stable() {
         Universe universe = aUniverseWith(blockAt(1, 1));
@@ -33,7 +31,6 @@ public final class UniverseTest {
         assertThat(nextGenerationUniverse, is(equalTo(universe)));
     }
 
-    @Ignore
     @Test public void
     an_L_becomes_a_block() {
         Universe universe = aUniverseWith(lShapeAt(2, 3));
