@@ -4,10 +4,9 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
+import static java.util.Comparator.comparing;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -41,6 +40,15 @@ public final class UniverseTest {
     }
 
     @Test public void
+    a_reversed_gamma_shape_becomes_a_block() {
+        Universe universe = aUniverseWith(reverse(gammaShapeAt(2, 3)));
+
+        Universe nextGenerationUniverse = universe.tick();
+
+        assertThat(nextGenerationUniverse, is(aUniverseWith(blockAt(2, 3))));
+    }
+
+    @Test public void
     universes_are_equal_if_their_cells_are_all_in_the_same_places() {
         EqualsVerifier.forClass(MyUniverse.class)
                 .suppress(Warning.NULL_FIELDS)
@@ -60,7 +68,11 @@ public final class UniverseTest {
 
         @Override
         public Universe tick() {
-            CellPosition firstCell = livingCellPositions.get(0);
+            CellPosition firstCell = livingCellPositions.
+                    stream().
+                    sorted(comparing(position -> position.y)).
+                    min(comparing(position -> position.x)).
+                    get();
             return aUniverseWith(blockAt(firstCell.x, firstCell.y));
         }
 
@@ -105,6 +117,11 @@ public final class UniverseTest {
 
     private static CellPosition cellAt(int x, int y) {
         return new CellPosition(x, y);
+    }
+
+    private static <T> List<T> reverse(List<T> list) {
+        Collections.reverse(list);
+        return list;
     }
 
     private static final class CellPosition {
