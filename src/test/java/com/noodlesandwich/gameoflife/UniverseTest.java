@@ -32,8 +32,8 @@ public final class UniverseTest {
     }
 
     @Test public void
-    an_L_becomes_a_block() {
-        Universe universe = aUniverseWith(lShapeAt(2, 3));
+    a_gamma_shape_becomes_a_block() {
+        Universe universe = aUniverseWith(gammaShapeAt(2, 3));
 
         Universe nextGenerationUniverse = universe.tick();
 
@@ -95,7 +95,7 @@ public final class UniverseTest {
         );
     }
 
-    private static List<CellPosition> lShapeAt(int x, int y) {
+    private static List<CellPosition> gammaShapeAt(int x, int y) {
         return Arrays.asList(
                 cellAt(x, y),
                 cellAt(x + 1, y),
