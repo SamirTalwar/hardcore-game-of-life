@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -49,6 +49,15 @@ public final class UniverseTest {
     }
 
     @Test public void
+    a_backwards_L_shape_becomes_a_block() {
+        Universe universe = aUniverseWith(backwardsLShapeAt(6, 4));
+
+        Universe nextGenerationUniverse = universe.tick();
+
+        assertThat(nextGenerationUniverse, is(aUniverseWith(blockAt(5, 4))));
+    }
+
+    @Test public void
     universes_are_equal_if_their_cells_are_all_in_the_same_places() {
         EqualsVerifier.forClass(MyUniverse.class)
                 .suppress(Warning.NULL_FIELDS)
@@ -68,12 +77,24 @@ public final class UniverseTest {
 
         @Override
         public Universe tick() {
-            CellPosition firstCell = livingCellPositions.
+            List<CellPosition> sortedPositions = livingCellPositions.
                     stream().
-                    sorted(comparing(position -> position.y)).
-                    min(comparing(position -> position.x)).
-                    get();
-            return aUniverseWith(blockAt(firstCell.x, firstCell.y));
+                    sorted((a, b) -> {
+                        if (a.y != b.y) {
+                            return Integer.compare(a.y, b.y);
+                        } else {
+                            return Integer.compare(a.x, b.x);
+                        }
+                    }).
+                    collect(toList());
+
+            CellPosition firstCell = sortedPositions.get(0);
+            CellPosition secondCell = sortedPositions.get(1);
+            if (firstCell.y == secondCell.y) {
+                return aUniverseWith(blockAt(firstCell.x, firstCell.y));
+            }
+
+            return aUniverseWith(blockAt(firstCell.x - 1, firstCell.y));
         }
 
         @Override
@@ -112,6 +133,14 @@ public final class UniverseTest {
                 cellAt(x, y),
                 cellAt(x + 1, y),
                 cellAt(x, y + 1)
+        );
+    }
+
+    private static List<CellPosition> backwardsLShapeAt(int x, int y) {
+        return Arrays.asList(
+                cellAt(x, y),
+                cellAt(x, y + 1),
+                cellAt(x - 1, y + 1)
         );
     }
 
