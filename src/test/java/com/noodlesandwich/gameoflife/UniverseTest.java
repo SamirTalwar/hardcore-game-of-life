@@ -13,13 +13,6 @@ import static org.junit.Assert.assertThat;
 
 public final class UniverseTest {
     // applies rules to the current state of the universe to create the next generation
-    // 1 pixel vanishes
-    // other test cases regarding business rules
-
-//    @Test public void
-//    one_pixel_vanishes() {
-//        assertThat(nextGenerationUniverse, is(empty()));
-//    }
 
     @Test public void
     a_block_is_stable() {
@@ -58,6 +51,15 @@ public final class UniverseTest {
     }
 
     @Test public void
+    a_single_cell_vanishes() {
+        Universe universe = aUniverseWith(singleCellAt(6, 9));
+
+        Universe nextGenerationUniverse = universe.tick();
+
+        assertThat(nextGenerationUniverse, is(aUniverseWith(nothing())));
+    }
+
+    @Test public void
     universes_are_equal_if_their_cells_are_all_in_the_same_places() {
         EqualsVerifier.forClass(MyUniverse.class)
                 .suppress(Warning.NULL_FIELDS)
@@ -77,6 +79,9 @@ public final class UniverseTest {
 
         @Override
         public Universe tick() {
+            if (livingCellPositions.size() <= 1) {
+                return aUniverseWith(nothing());
+            }
             int minX = min(CellPosition::getX);
             int minY = min(CellPosition::getY);
             return aUniverseWith(blockAt(minX, minY));
@@ -108,6 +113,16 @@ public final class UniverseTest {
         }
     }
 
+    private static List<CellPosition> nothing() {
+        return Collections.emptyList();
+    }
+
+    private List<CellPosition> singleCellAt(int x, int y) {
+        return Arrays.asList(
+                cellAt(x, y)
+        );
+    }
+
     private static List<CellPosition> blockAt(int x, int y) {
         return Arrays.asList(
                 cellAt(x, y),
@@ -132,6 +147,7 @@ public final class UniverseTest {
                 cellAt(x - 1, y + 1)
         );
     }
+
 
     private static CellPosition cellAt(int x, int y) {
         return new CellPosition(x, y);
