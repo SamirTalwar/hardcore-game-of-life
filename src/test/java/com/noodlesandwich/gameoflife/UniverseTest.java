@@ -1,9 +1,13 @@
 package com.noodlesandwich.gameoflife;
 
-import java.util.Arrays;
-import java.util.List;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -39,6 +43,13 @@ public final class UniverseTest {
         assertThat(nextGenerationUniverse, is(aUniverseWith(blockAt(2, 3))));
     }
 
+    @Test public void
+    universes_are_equal_if_their_cells_are_all_in_the_same_places() {
+        EqualsVerifier.forClass(MyUniverse.class)
+                .suppress(Warning.NULL_FIELDS)
+                .verify();
+    }
+
     private static Universe aUniverseWith(List<CellPosition> livingCellPositions) {
         return new MyUniverse(livingCellPositions);
     }
@@ -56,7 +67,21 @@ public final class UniverseTest {
             return aUniverseWith(blockAt(firstCell.x, firstCell.y));
         }
 
-        // TODO: equals and hashCode on parameters to make the tests pass.
+        @Override
+        public final boolean equals(Object other) {
+            if (!(other instanceof MyUniverse)) {
+                return false;
+            }
+
+            MyUniverse that = (MyUniverse) other;
+            // TODO do not care for order
+            return this.livingCellPositions.equals(that.livingCellPositions);
+        }
+
+        @Override
+        public final int hashCode() {
+            return this.livingCellPositions.hashCode();
+        }
     }
 
     private static List<CellPosition> blockAt(int x, int y) {
@@ -79,14 +104,29 @@ public final class UniverseTest {
     private static CellPosition cellAt(int x, int y) {
         return new CellPosition(x, y);
     }
-    private static class CellPosition {
-        private final int x;
 
+    private static final class CellPosition {
+        private final int x;
         private final int y;
+
         public CellPosition(int x, int y) {
             this.x = x;
             this.y = y;
         }
 
+        @Override
+        public boolean equals(Object other) {
+            if (!(other instanceof CellPosition)) {
+                return false;
+            }
+
+            CellPosition that = (CellPosition) other;
+            return this.x == that.x && this.y == that.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
     }
 }
