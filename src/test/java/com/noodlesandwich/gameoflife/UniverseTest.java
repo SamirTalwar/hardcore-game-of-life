@@ -5,8 +5,8 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.function.Function;
 
-import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -77,24 +77,13 @@ public final class UniverseTest {
 
         @Override
         public Universe tick() {
-            List<CellPosition> sortedPositions = livingCellPositions.
-                    stream().
-                    sorted((a, b) -> {
-                        if (a.y != b.y) {
-                            return Integer.compare(a.y, b.y);
-                        } else {
-                            return Integer.compare(a.x, b.x);
-                        }
-                    }).
-                    collect(toList());
+            int minX = min(CellPosition::getX);
+            int minY = min(CellPosition::getY);
+            return aUniverseWith(blockAt(minX, minY));
+        }
 
-            CellPosition firstCell = sortedPositions.get(0);
-            CellPosition secondCell = sortedPositions.get(1);
-            if (firstCell.y == secondCell.y) {
-                return aUniverseWith(blockAt(firstCell.x, firstCell.y));
-            }
-
-            return aUniverseWith(blockAt(firstCell.x - 1, firstCell.y));
+        private <T extends Comparable<T>> T min(Function<CellPosition, T> mapper) {
+            return livingCellPositions.stream().map(mapper).min(Comparator.<T>naturalOrder()).get();
         }
 
         @Override
@@ -160,6 +149,14 @@ public final class UniverseTest {
         public CellPosition(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
         }
 
         @Override
