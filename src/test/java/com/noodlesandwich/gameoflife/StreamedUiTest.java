@@ -28,5 +28,5 @@ public final class StreamedUiTest {
         verify(universe).tick();
     }
 
-    // test return output
+    // TODO test return output
 }
