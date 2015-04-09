@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 
 import static com.noodlesandwich.gameoflife.Joiner.join;
-import static com.noodlesandwich.gameoflife.UniverseTest.MyUniverse.emptyUniverse;
+import static com.noodlesandwich.gameoflife.MyUniverse.emptyUniverse;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
