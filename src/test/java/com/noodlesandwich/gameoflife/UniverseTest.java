@@ -36,7 +36,7 @@ public final class UniverseTest {
 
     @Test public void
     a_reversed_gamma_shape_becomes_a_block() {
-        Universe universe = aUniverseWith(reverse(gammaShapeAt(2, 3)));
+        Universe universe = aUniverseWith(reversedGammaShapeAt(2, 3));
 
         Universe nextGenerationUniverse = universe.tick();
 
@@ -72,50 +72,16 @@ public final class UniverseTest {
                 .verify();
     }
 
-    private static Universe aUniverseWith(List<CellPosition> livingCellPositions) {
+    private static Universe aUniverseWith(CellPositions livingCellPositions) {
         return new MyUniverse(livingCellPositions);
     }
 
     private static class MyUniverse implements Universe {
 
-        private static class CellPositions {
-            private final List<CellPosition> livingCellPositions;
-
-            public CellPositions(List<CellPosition> livingCellPositions) {
-                this.livingCellPositions = livingCellPositions;
-            }
-
-            public boolean isEmptyOrHasASingleCell() {
-                return livingCellPositions.size() <= 1;
-            }
-
-            public <T extends Comparable<T>> T min(Function<CellPosition, T> mapper) {
-                return livingCellPositions.stream().map(mapper).min(Comparator.<T>naturalOrder()).get();
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) {
-                    return true;
-                }
-                if (!(o instanceof CellPositions)) {
-                    return false;
-                }
-
-                CellPositions that = (CellPositions) o;
-                return this.livingCellPositions.equals(that.livingCellPositions);
-            }
-
-            @Override
-            public int hashCode() {
-                return livingCellPositions.hashCode();
-            }
-        }
-
         private final CellPositions livingCellPositions;
 
-        public MyUniverse(List<CellPosition> livingCellPositions) {
-            this.livingCellPositions = new CellPositions(livingCellPositions);
+        public MyUniverse(CellPositions livingCellPositions) {
+            this.livingCellPositions = livingCellPositions;
         }
 
         @Override
@@ -150,18 +116,18 @@ public final class UniverseTest {
         }
     }
 
-    private static List<CellPosition> nothing() {
-        return Collections.emptyList();
+    private static CellPositions nothing() {
+        return new CellPositions();
     }
 
-    private List<CellPosition> singleCellAt(int x, int y) {
-        return Arrays.asList(
+    private static CellPositions singleCellAt(int x, int y) {
+        return new CellPositions(
                 cellAt(x, y)
         );
     }
 
-    private static List<CellPosition> blockAt(int x, int y) {
-        return Arrays.asList(
+    private static CellPositions blockAt(int x, int y) {
+        return new CellPositions(
                 cellAt(x, y),
                 cellAt(x + 1, y),
                 cellAt(x, y + 1),
@@ -169,30 +135,32 @@ public final class UniverseTest {
         );
     }
 
-    private static List<CellPosition> gammaShapeAt(int x, int y) {
-        return Arrays.asList(
+    private static CellPositions gammaShapeAt(int x, int y) {
+        return new CellPositions(
                 cellAt(x, y),
                 cellAt(x + 1, y),
                 cellAt(x, y + 1)
         );
     }
 
-    private static List<CellPosition> backwardsLShapeAt(int x, int y) {
-        return Arrays.asList(
+    private static CellPositions reversedGammaShapeAt(int x, int y) {
+        return new CellPositions(
+                cellAt(x, y + 1),
+                cellAt(x + 1, y),
+                cellAt(x, y)
+        );
+    }
+
+    private static CellPositions backwardsLShapeAt(int x, int y) {
+        return new CellPositions(
                 cellAt(x, y),
                 cellAt(x, y + 1),
                 cellAt(x - 1, y + 1)
         );
     }
 
-
     private static CellPosition cellAt(int x, int y) {
         return new CellPosition(x, y);
-    }
-
-    private static <T> List<T> reverse(List<T> list) {
-        Collections.reverse(list);
-        return list;
     }
 
     private static final class CellPosition {
@@ -231,6 +199,44 @@ public final class UniverseTest {
         public String toString() {
             // return String.format("(%d,%d)", x, y);
             return "(" + x + "," + y + ")";
+        }
+    }
+
+    private static class CellPositions {
+        private final List<CellPosition> livingCellPositions;
+
+        public CellPositions(CellPosition... livingCellPositions) {
+            this(Arrays.asList(livingCellPositions));
+        }
+
+        public CellPositions(List<CellPosition> livingCellPositions) {
+            this.livingCellPositions = livingCellPositions;
+        }
+
+        public boolean isEmptyOrHasASingleCell() {
+            return livingCellPositions.size() <= 1;
+        }
+
+        public <T extends Comparable<T>> T min(Function<CellPosition, T> mapper) {
+            return livingCellPositions.stream().map(mapper).min(Comparator.<T>naturalOrder()).get();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof CellPositions)) {
+                return false;
+            }
+
+            CellPositions that = (CellPositions) o;
+            return this.livingCellPositions.equals(that.livingCellPositions);
+        }
+
+        @Override
+        public int hashCode() {
+            return livingCellPositions.hashCode();
         }
     }
 }
