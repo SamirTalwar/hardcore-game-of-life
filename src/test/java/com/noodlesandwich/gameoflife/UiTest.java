@@ -13,7 +13,7 @@ public final class UiTest {
     @Test public void
     creates_universe_and_ticks_it() {
         Ui ui = new Ui(ioRepresentation);
-        when(ioRepresentation.deserialize()).thenReturn(universe);
+        when(ioRepresentation.deserializeNextUniverse()).thenReturn(universe);
 
         ui.tick();
 

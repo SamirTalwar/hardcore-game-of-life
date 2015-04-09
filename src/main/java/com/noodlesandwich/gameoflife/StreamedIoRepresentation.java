@@ -8,7 +8,7 @@ public class StreamedIoRepresentation implements IoRepresentation {
     }
 
     @Override
-    public Universe deserialize() {
+    public Universe deserializeNextUniverse() {
         throw new UnsupportedOperationException();
     }
 }

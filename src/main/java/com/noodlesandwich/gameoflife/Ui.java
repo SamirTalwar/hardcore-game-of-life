@@ -1,8 +1,5 @@
 package com.noodlesandwich.gameoflife;
 
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-
 public final class Ui {
 
     private final IoRepresentation ioRepresentation;
@@ -12,7 +9,8 @@ public final class Ui {
     }
 
     public void tick() {
-        Universe universe = ioRepresentation.deserialize();
+        Universe universe = ioRepresentation.deserializeNextUniverse();
         universe.tick();
+        // we are losing ourselves in names here. deserialize, tick, all is wrong ;-)
     }
 }
