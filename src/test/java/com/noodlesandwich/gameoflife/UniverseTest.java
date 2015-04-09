@@ -85,8 +85,8 @@ public final class UniverseTest {
                 this.livingCellPositions = livingCellPositions;
             }
 
-            public int size() {
-                return livingCellPositions.size();
+            public boolean isEmptyOrHasASingleCell() {
+                return livingCellPositions.size() <= 1;
             }
 
             public <T extends Comparable<T>> T min(Function<CellPosition, T> mapper) {
@@ -120,7 +120,7 @@ public final class UniverseTest {
 
         @Override
         public Universe tick() {
-            if (livingCellPositions.size() <= 1) {
+            if (livingCellPositions.isEmptyOrHasASingleCell()) {
                 return emptyUniverse();
             }
             int minX = livingCellPositions.min(CellPosition::getX);
