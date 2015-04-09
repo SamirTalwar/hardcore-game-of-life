@@ -77,10 +77,45 @@ public final class UniverseTest {
     }
 
     private static class MyUniverse implements Universe {
-        private final List<CellPosition> livingCellPositions;
+
+        private static class CellPositions {
+            private final List<CellPosition> livingCellPositions;
+
+            public CellPositions(List<CellPosition> livingCellPositions) {
+                this.livingCellPositions = livingCellPositions;
+            }
+
+            public int size() {
+                return livingCellPositions.size();
+            }
+
+            public <T extends Comparable<T>> T min(Function<CellPosition, T> mapper) {
+                return livingCellPositions.stream().map(mapper).min(Comparator.<T>naturalOrder()).get();
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) {
+                    return true;
+                }
+                if (!(o instanceof CellPositions)) {
+                    return false;
+                }
+
+                CellPositions that = (CellPositions) o;
+                return this.livingCellPositions.equals(that.livingCellPositions);
+            }
+
+            @Override
+            public int hashCode() {
+                return livingCellPositions.hashCode();
+            }
+        }
+
+        private final CellPositions livingCellPositions;
 
         public MyUniverse(List<CellPosition> livingCellPositions) {
-            this.livingCellPositions = livingCellPositions;
+            this.livingCellPositions = new CellPositions(livingCellPositions);
         }
 
         @Override
@@ -88,13 +123,9 @@ public final class UniverseTest {
             if (livingCellPositions.size() <= 1) {
                 return emptyUniverse();
             }
-            int minX = min(CellPosition::getX);
-            int minY = min(CellPosition::getY);
+            int minX = livingCellPositions.min(CellPosition::getX);
+            int minY = livingCellPositions.min(CellPosition::getY);
             return aUniverseWith(blockAt(minX, minY));
-        }
-
-        private <T extends Comparable<T>> T min(Function<CellPosition, T> mapper) {
-            return livingCellPositions.stream().map(mapper).min(Comparator.<T>naturalOrder()).get();
         }
 
         @Override
