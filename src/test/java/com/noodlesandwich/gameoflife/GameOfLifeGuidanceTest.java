@@ -5,11 +5,12 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.stream.Stream;
+
 import org.hamcrest.Matcher;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import static com.noodlesandwich.gameoflife.Joiner.join;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -75,12 +76,5 @@ public final class GameOfLifeGuidanceTest {
 
     private Matcher<String> looksLike(String... lines) {
         return is(join(lines));
-    }
-
-    // TODO: Move elsewhere.
-    private String join(String[] lines) {
-        return Stream.of(lines)
-                .map(line -> line + System.lineSeparator())
-                .collect(joining());
     }
 }
