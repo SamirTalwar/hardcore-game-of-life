@@ -12,7 +12,7 @@
 Plan A: to continue the regular outside in kata, we we had planned to return to the point before
 creating the universe and then move forward from there.
 
-Plan B: continue with avoiding implementation decicions and mess around more with current way.
+Plan B: continue with avoiding implementation decisions and mess around more with current way.
 
 
 # Retro #2 - 2015-03-20
