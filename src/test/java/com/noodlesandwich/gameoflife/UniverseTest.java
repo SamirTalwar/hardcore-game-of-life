@@ -18,7 +18,7 @@ public final class UniverseTest {
 
     @Test public void
     a_block_is_stable() {
-        Universe universe = aUniverseWith(blockAt(1, 1));
+        Universe universe = MyUniverse.aUniverseWith(CellPositions.blockAt(1, 1));
 
         Universe nextGenerationUniverse = universe.tick();
 
@@ -27,42 +27,38 @@ public final class UniverseTest {
 
     @Test public void
     a_gamma_shape_becomes_a_block() {
-        Universe universe = aUniverseWith(gammaShapeAt(2, 3));
+        Universe universe = MyUniverse.aUniverseWith(CellPositions.gammaShapeAt(2, 3));
 
         Universe nextGenerationUniverse = universe.tick();
 
-        assertThat(nextGenerationUniverse, is(aUniverseWith(blockAt(2, 3))));
+        assertThat(nextGenerationUniverse, is(MyUniverse.aUniverseWith(CellPositions.blockAt(2, 3))));
     }
 
     @Test public void
     a_reversed_gamma_shape_becomes_a_block() {
-        Universe universe = aUniverseWith(reversedGammaShapeAt(2, 3));
+        Universe universe = MyUniverse.aUniverseWith(CellPositions.reversedGammaShapeAt(2, 3));
 
         Universe nextGenerationUniverse = universe.tick();
 
-        assertThat(nextGenerationUniverse, is(aUniverseWith(blockAt(2, 3))));
+        assertThat(nextGenerationUniverse, is(MyUniverse.aUniverseWith(CellPositions.blockAt(2, 3))));
     }
 
     @Test public void
     a_backwards_L_shape_becomes_a_block() {
-        Universe universe = aUniverseWith(backwardsLShapeAt(6, 4));
+        Universe universe = MyUniverse.aUniverseWith(CellPositions.backwardsLShapeAt(6, 4));
 
         Universe nextGenerationUniverse = universe.tick();
 
-        assertThat(nextGenerationUniverse, is(aUniverseWith(blockAt(5, 4))));
+        assertThat(nextGenerationUniverse, is(MyUniverse.aUniverseWith(CellPositions.blockAt(5, 4))));
     }
 
     @Test public void
     a_single_cell_vanishes() {
-        Universe universe = aUniverseWith(singleCellAt(6, 9));
+        Universe universe = MyUniverse.aUniverseWith(CellPositions.singleCellAt(6, 9));
 
         Universe nextGenerationUniverse = universe.tick();
 
-        assertThat(nextGenerationUniverse, is(emptyUniverse()));
-    }
-
-    static Universe emptyUniverse() {
-        return aUniverseWith(nothing());
+        assertThat(nextGenerationUniverse, is(MyUniverse.emptyUniverse()));
     }
 
     @Test public void
@@ -72,15 +68,19 @@ public final class UniverseTest {
                 .verify();
     }
 
-    private static Universe aUniverseWith(CellPositions livingCellPositions) {
-        return new MyUniverse(livingCellPositions);
-    }
-
-    private static class MyUniverse implements Universe {
+    static class MyUniverse implements Universe {
 
         private final CellPositions livingCellPositions;
 
-        public MyUniverse(CellPositions livingCellPositions) {
+        public static Universe emptyUniverse() {
+            return aUniverseWith(CellPositions.nothing());
+        }
+
+        public static Universe aUniverseWith(CellPositions livingCellPositions) {
+            return new MyUniverse(livingCellPositions);
+        }
+
+        private MyUniverse(CellPositions livingCellPositions) {
             this.livingCellPositions = livingCellPositions;
         }
 
@@ -91,7 +91,7 @@ public final class UniverseTest {
             }
             int minX = livingCellPositions.min(CellPosition::getX);
             int minY = livingCellPositions.min(CellPosition::getY);
-            return aUniverseWith(blockAt(minX, minY));
+            return aUniverseWith(CellPositions.blockAt(minX, minY));
         }
 
         @Override
@@ -116,58 +116,15 @@ public final class UniverseTest {
         }
     }
 
-    private static CellPositions nothing() {
-        return new CellPositions();
-    }
-
-    private static CellPositions singleCellAt(int x, int y) {
-        return new CellPositions(
-                cellAt(x, y)
-        );
-    }
-
-    private static CellPositions blockAt(int x, int y) {
-        return new CellPositions(
-                cellAt(x, y),
-                cellAt(x + 1, y),
-                cellAt(x, y + 1),
-                cellAt(x + 1, y + 1)
-        );
-    }
-
-    private static CellPositions gammaShapeAt(int x, int y) {
-        return new CellPositions(
-                cellAt(x, y),
-                cellAt(x + 1, y),
-                cellAt(x, y + 1)
-        );
-    }
-
-    private static CellPositions reversedGammaShapeAt(int x, int y) {
-        return new CellPositions(
-                cellAt(x, y + 1),
-                cellAt(x + 1, y),
-                cellAt(x, y)
-        );
-    }
-
-    private static CellPositions backwardsLShapeAt(int x, int y) {
-        return new CellPositions(
-                cellAt(x, y),
-                cellAt(x, y + 1),
-                cellAt(x - 1, y + 1)
-        );
-    }
-
-    private static CellPosition cellAt(int x, int y) {
-        return new CellPosition(x, y);
-    }
-
     private static final class CellPosition {
         private final int x;
         private final int y;
 
-        public CellPosition(int x, int y) {
+        public static CellPosition cellAt(int x, int y) {
+            return new CellPosition(x, y);
+        }
+
+        private CellPosition(int x, int y) {
             this.x = x;
             this.y = y;
         }
@@ -205,11 +162,15 @@ public final class UniverseTest {
     private static class CellPositions {
         private final List<CellPosition> livingCellPositions;
 
+        private static CellPositions nothing() {
+            return new CellPositions();
+        }
+
         public CellPositions(CellPosition... livingCellPositions) {
             this(Arrays.asList(livingCellPositions));
         }
 
-        public CellPositions(List<CellPosition> livingCellPositions) {
+        private CellPositions(List<CellPosition> livingCellPositions) {
             this.livingCellPositions = livingCellPositions;
         }
 
@@ -237,6 +198,45 @@ public final class UniverseTest {
         @Override
         public int hashCode() {
             return livingCellPositions.hashCode();
+        }
+
+        public static CellPositions singleCellAt(int x, int y) {
+            return new CellPositions(
+                    CellPosition.cellAt(x, y)
+            );
+        }
+
+        public static CellPositions blockAt(int x, int y) {
+            return new CellPositions(
+                    CellPosition.cellAt(x, y),
+                    CellPosition.cellAt(x + 1, y),
+                    CellPosition.cellAt(x, y + 1),
+                    CellPosition.cellAt(x + 1, y + 1)
+            );
+        }
+
+        public static CellPositions gammaShapeAt(int x, int y) {
+            return new CellPositions(
+                    CellPosition.cellAt(x, y),
+                    CellPosition.cellAt(x + 1, y),
+                    CellPosition.cellAt(x, y + 1)
+            );
+        }
+
+        public static CellPositions reversedGammaShapeAt(int x, int y) {
+            return new CellPositions(
+                    CellPosition.cellAt(x, y + 1),
+                    CellPosition.cellAt(x + 1, y),
+                    CellPosition.cellAt(x, y)
+            );
+        }
+
+        public static CellPositions backwardsLShapeAt(int x, int y) {
+            return new CellPositions(
+                    CellPosition.cellAt(x, y),
+                    CellPosition.cellAt(x, y + 1),
+                    CellPosition.cellAt(x - 1, y + 1)
+            );
         }
     }
 }
