@@ -12,9 +12,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public final class UniverseTest {
-    // applies rules to the current state of the universe to create the next generation
-
-    // TODO (continue here) last test was vanishing. so what is the next shape?/test case?
 
     @Test public void
     a_block_is_stable() {

@@ -28,3 +28,21 @@ Plan B: continue with avoiding implementation decisions and mess around more wit
 * Samir felt good when ugly code got refactored, it felt like getting somewhere because it is more generic
 * moving in good direction.
 * at least one more time on this problem if there is more fun, or just TDD cycle.
+
+
+# Retro #3 - 2015-04-09
+
+* again we "changed" direction, or at least looked at it from another angle
+  Samir "we decided sth else was important"
+* thanks for showing me shortcuts again
+* most of the time in refactoring and we progressed well.
+  it felt like real progress
+* we took decisions fast, because similar mindsets today or one does not care
+  one decision we could not decide, we left for later and never came back, which was also ok
+* less awkward, maybe because much refactoring today
+  - should we do more refactoring because we enjoy it more?
+  - should we not do it because we are comfortable?
+  we need a mix
+  - maybe need to be explicit and aware of it and when one is tired/anxious, just "ask for some refactoring to relax"
+* very nice
+* Samir had more lag the second half, difficult to type

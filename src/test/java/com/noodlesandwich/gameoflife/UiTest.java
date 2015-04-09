@@ -18,6 +18,10 @@ public final class UiTest {
         ui.tick();
 
         verify(universe).tick();
+
+        // TODO next rename MyUniverse to Universe
+        // this test breaks because of Mockito now after we renamed it - think about it!
+
     }
 
     // TODO test return output
