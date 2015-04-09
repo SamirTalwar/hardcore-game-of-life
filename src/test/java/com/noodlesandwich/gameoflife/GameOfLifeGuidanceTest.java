@@ -61,12 +61,12 @@ public final class GameOfLifeGuidanceTest {
     }
 
     private void whenTheGameTicks() {
-        StreamedUi ui = createUi();
+        Ui ui = createUi();
         ui.tick();
     }
 
-    private StreamedUi createUi() {
-        return new StreamedUi(new BufferedReader(commandLineInput), new PrintWriter(commandLineOutput), null);
+    private Ui createUi() {
+        return new Ui(new StreamedIoRepresentation(new BufferedReader(commandLineInput), new PrintWriter(commandLineOutput)));
     }
 
     private String theOutput() {
