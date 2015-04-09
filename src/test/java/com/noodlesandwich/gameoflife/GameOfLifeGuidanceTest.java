@@ -20,6 +20,26 @@ public final class GameOfLifeGuidanceTest {
     private final StringWriter commandLineOutput = new StringWriter();
 
     @Test public void
+    a_block_is_static() {
+        String[] universe = {
+            "........",
+            "........",
+            "........",
+            "........",
+            "........",
+            "....**..",
+            "....**..",
+            "........"
+        };
+
+        givenTheInputIs(universe);
+
+        whenTheGameTicks();
+
+        assertThat(theOutput(), looksLike(universe));
+    }
+
+    @Test public void
     a_blinker_blinks() {
         givenTheInputIs(
                 ".*.",
