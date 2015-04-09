@@ -58,7 +58,11 @@ public final class UniverseTest {
 
         Universe nextGenerationUniverse = universe.tick();
 
-        assertThat(nextGenerationUniverse, is(aUniverseWith(nothing())));
+        assertThat(nextGenerationUniverse, is(emptyUniverse()));
+    }
+
+    static Universe emptyUniverse() {
+        return aUniverseWith(nothing());
     }
 
     @Test public void
@@ -82,7 +86,7 @@ public final class UniverseTest {
         @Override
         public Universe tick() {
             if (livingCellPositions.size() <= 1) {
-                return aUniverseWith(nothing());
+                return emptyUniverse();
             }
             int minX = min(CellPosition::getX);
             int minY = min(CellPosition::getY);
