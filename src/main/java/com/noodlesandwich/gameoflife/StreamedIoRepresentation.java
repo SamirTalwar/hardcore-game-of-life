@@ -2,6 +2,7 @@ package com.noodlesandwich.gameoflife;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.stream.IntStream;
 
 import static com.noodlesandwich.gameoflife.CellPositions.singleCellAt;
 import static com.noodlesandwich.gameoflife.CellPositions.twoCellsAt;
@@ -29,15 +30,10 @@ public class StreamedIoRepresentation implements IoRepresentation {
             return aUniverseWith(singleCellAt(0, 0));
         }
 
-        CellPositions cells = CellPositions.nothing();
-
-        if (firstLine.charAt(1) == LIVING) {
-            cells = cells.and(singleCellAt(1, 0));
-        }
-
-        if (firstLine.charAt(2) == LIVING) {
-            cells = cells.and(singleCellAt(2, 0));
-        }
+        CellPositions cells = IntStream.range(0, firstLine.length())
+                .filter(i -> firstLine.charAt(i) == LIVING)
+                .mapToObj(i -> singleCellAt(i, 0))
+                .reduce(CellPositions.nothing(), CellPositions::and);
 
         if (firstLine.charAt(1) == LIVING) { // ugly, wrong tests
             CellPositions rowTwoCells = twoCellsAt(secondLine.indexOf(LIVING), 1);
