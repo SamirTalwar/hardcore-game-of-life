@@ -1,6 +1,5 @@
 package com.noodlesandwich.gameoflife;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -15,7 +14,6 @@ import static org.mockito.Mockito.mock;
 
 public class StreamedIoRepresentationTest {
 
-    @Ignore("next to work in after extracting MyUniverse to Universe top level")
     @Test public void
     should_deserialize_empty_universe() {
         IoRepresentation ioRepresentation = newStreamedIoRepresentationOf(
