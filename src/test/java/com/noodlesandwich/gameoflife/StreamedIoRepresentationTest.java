@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 
+import static com.noodlesandwich.gameoflife.CellPositions.backwardsLShapeAt;
 import static com.noodlesandwich.gameoflife.CellPositions.blockAt;
 import static com.noodlesandwich.gameoflife.CellPositions.singleCellAt;
 import static com.noodlesandwich.gameoflife.Joiner.join;
@@ -52,6 +53,18 @@ public class StreamedIoRepresentationTest {
         Universe universe = ioRepresentation.deserializeNextUniverse();
 
         assertThat(universe, is(aUniverseWith(blockAt(1, 0))));
+    }
+
+    @Test public void
+    should_deserialize_backwards_L_shape_in_a_universe() throws IOException {
+        IoRepresentation ioRepresentation = newStreamedIoRepresentationOf(
+                ".x..",
+                "xx..",
+                "....");
+
+        Universe universe = ioRepresentation.deserializeNextUniverse();
+
+        assertThat(universe, is(aUniverseWith(backwardsLShapeAt(1, 0))));
     }
 
     private StreamedIoRepresentation newStreamedIoRepresentationOf(String... lines) {
