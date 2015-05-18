@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringReader;
 
 import static com.noodlesandwich.gameoflife.CellPositions.blockAt;
@@ -58,7 +57,7 @@ public class StreamedIoRepresentationTest {
 
     private StreamedIoRepresentation newStreamedIoRepresentationOf(String... lines) {
         BufferedReader bufferedReader = new BufferedReader(new StringReader(join(lines)));
-        return new StreamedIoRepresentation(bufferedReader, dummy(PrintWriter.class));
+        return new StreamedIoRepresentation(bufferedReader);
     }
 
     private static <T> T dummy(Class<T> type) {

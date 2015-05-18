@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -67,7 +66,7 @@ public final class GameOfLifeGuidanceTest {
     }
 
     private Ui createUi() {
-        return new Ui(new StreamedIoRepresentation(new BufferedReader(commandLineInput), new PrintWriter(commandLineOutput)));
+        return new Ui(new StreamedIoRepresentation(new BufferedReader(commandLineInput)));
     }
 
     private String theOutput() {

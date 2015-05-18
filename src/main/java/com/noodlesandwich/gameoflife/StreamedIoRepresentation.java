@@ -2,7 +2,6 @@ package com.noodlesandwich.gameoflife;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import static com.noodlesandwich.gameoflife.CellPositions.blockAt;
 import static com.noodlesandwich.gameoflife.CellPositions.singleCellAt;
@@ -12,7 +11,7 @@ import static com.noodlesandwich.gameoflife.MyUniverse.emptyUniverse;
 public class StreamedIoRepresentation implements IoRepresentation {
     private final BufferedReader reader;
 
-    public StreamedIoRepresentation(BufferedReader reader, PrintWriter writer) {
+    public StreamedIoRepresentation(BufferedReader reader) {
         this.reader = reader;
     }
 
