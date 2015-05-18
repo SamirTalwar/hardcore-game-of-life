@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.function.Function;
 
 import static com.noodlesandwich.gameoflife.CellPosition.cellAt;
+import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Stream.concat;
 
 public class CellPositions {
     private final Set<CellPosition> livingCellPositions;
@@ -21,6 +23,15 @@ public class CellPositions {
 
     private CellPositions(Set<CellPosition> livingCellPositions) {
         this.livingCellPositions = livingCellPositions;
+    }
+
+    public CellPositions and(CellPositions other) {
+        return new CellPositions(merged(livingCellPositions, other.livingCellPositions));
+    }
+
+    private static <T> Set<T> merged(Set<T> a, Set<T> b) {
+        // static tells me it does not belong here and can be moved anywhere
+        return concat(a.stream(), b.stream()).collect(toSet());
     }
 
     public boolean isEmptyOrHasASingleCell() {
@@ -60,6 +71,13 @@ public class CellPositions {
         );
     }
 
+    public static CellPositions twoCellsAt(int x, int y) {
+        return new CellPositions(
+                cellAt(x, y),
+                cellAt(x + 1, y)
+        );
+    }
+
     public static CellPositions blockAt(int x, int y) {
         return new CellPositions(
                 cellAt(x, y),
@@ -92,4 +110,5 @@ public class CellPositions {
                 cellAt(x - 1, y + 1)
         );
     }
+
 }
