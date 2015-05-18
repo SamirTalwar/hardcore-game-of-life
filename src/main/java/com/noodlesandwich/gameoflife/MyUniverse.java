@@ -23,6 +23,8 @@ public class MyUniverse implements Universe {
         if (livingCellPositions.isEmptyOrHasASingleCell()) {
             return emptyUniverse();
         }
+        // this is not complete but we have a data structure finally and can move forward as usual from here
+        // skip this, do something else interesting.
         int minX = livingCellPositions.min(CellPosition::getX);
         int minY = livingCellPositions.min(CellPosition::getY);
         return aUniverseWith(blockAt(minX, minY));
