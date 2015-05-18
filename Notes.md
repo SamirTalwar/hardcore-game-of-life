@@ -46,3 +46,14 @@ Plan B: continue with avoiding implementation decisions and mess around more wit
   - maybe need to be explicit and aware of it and when one is tired/anxious, just "ask for some refactoring to relax"
 * very nice
 * Samir had more lag the second half, difficult to type
+
+
+# Retro #4 - 2015-05-18
+
+* Peter likes the functional Java Samir does
+* mood was good
+* interesting questions, noted as comments, good discussions in the breaks, too
+* Peter bit tired, so asked Samir to work
+* taking notes is helpful, even in code
+* asking questions and explaining though process helps.
+

@@ -24,7 +24,7 @@ public class StreamedIoRepresentation implements IoRepresentation {
 
         // two ideas: Samir needs to vary both lines to get more complex logic to see pattern,
         // also make building blocks smaller by refactoring to see it earlier
-        // Peter wants to start over to use only singleCells and see direct connection of (x,y) and CellPosition.
+        // TODO Peter wants to start over to use only singleCells and see direct connection of (x,y) and CellPosition.
 
         if (firstLine.charAt(0) == LIVING) {
             return aUniverseWith(singleCellAt(0, 0));
