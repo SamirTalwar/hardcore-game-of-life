@@ -4,9 +4,13 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
-import static com.noodlesandwich.gameoflife.CellPositions.*;
-import static com.noodlesandwich.gameoflife.MyUniverse.*;
+import static com.noodlesandwich.gameoflife.CellPositions.backwardsLShapeAt;
+import static com.noodlesandwich.gameoflife.CellPositions.blockAt;
+import static com.noodlesandwich.gameoflife.CellPositions.gammaShapeAt;
+import static com.noodlesandwich.gameoflife.CellPositions.reversedGammaShapeAt;
+import static com.noodlesandwich.gameoflife.CellPositions.singleCellAt;
 import static com.noodlesandwich.gameoflife.MyUniverse.aUniverseWith;
+import static com.noodlesandwich.gameoflife.MyUniverse.emptyUniverse;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

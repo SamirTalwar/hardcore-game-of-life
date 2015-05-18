@@ -13,7 +13,6 @@ import static com.noodlesandwich.gameoflife.MyUniverse.aUniverseWith;
 import static com.noodlesandwich.gameoflife.MyUniverse.emptyUniverse;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
 public class StreamedIoRepresentationTest {
 
@@ -60,7 +59,4 @@ public class StreamedIoRepresentationTest {
         return new StreamedIoRepresentation(bufferedReader);
     }
 
-    private static <T> T dummy(Class<T> type) {
-        return mock(type);
-    }
 }
