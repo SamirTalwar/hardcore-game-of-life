@@ -2,23 +2,24 @@ package com.noodlesandwich.gameoflife;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 
 import static com.noodlesandwich.gameoflife.CellPosition.cellAt;
 
 public class CellPositions {
-    private final List<CellPosition> livingCellPositions;
+    private final Set<CellPosition> livingCellPositions;
 
     public static CellPositions nothing() {
         return new CellPositions();
     }
 
     public CellPositions(CellPosition... livingCellPositions) {
-        this(Arrays.asList(livingCellPositions));
+        this(new HashSet<>(Arrays.asList(livingCellPositions)));
     }
 
-    private CellPositions(List<CellPosition> livingCellPositions) {
+    private CellPositions(Set<CellPosition> livingCellPositions) {
         this.livingCellPositions = livingCellPositions;
     }
 
@@ -40,7 +41,6 @@ public class CellPositions {
         }
 
         CellPositions that = (CellPositions) o;
-        // TODO (maybe) do not care for order
         return this.livingCellPositions.equals(that.livingCellPositions);
     }
 
