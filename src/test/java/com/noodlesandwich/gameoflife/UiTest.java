@@ -2,6 +2,8 @@ package com.noodlesandwich.gameoflife;
 
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,7 +13,7 @@ public final class UiTest {
     private final Universe universe = mock(Universe.class);
 
     @Test public void
-    creates_universe_and_ticks_it() {
+    creates_universe_and_ticks_it() throws IOException {
         Ui ui = new Ui(ioRepresentation);
         when(ioRepresentation.deserializeNextUniverse()).thenReturn(universe);
 

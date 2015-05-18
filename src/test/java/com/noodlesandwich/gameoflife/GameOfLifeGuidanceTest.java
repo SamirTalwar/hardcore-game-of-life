@@ -1,17 +1,17 @@
 package com.noodlesandwich.gameoflife;
 
+import org.hamcrest.Matcher;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import org.hamcrest.Matcher;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import static com.noodlesandwich.gameoflife.Joiner.join;
-import static java.util.stream.Collectors.joining;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -21,7 +21,7 @@ public final class GameOfLifeGuidanceTest {
     private final StringWriter commandLineOutput = new StringWriter();
 
     @Test public void
-    a_block_is_static() {
+    a_block_is_static() throws IOException {
         String[] universe = {
             "........",
             "........",
@@ -41,7 +41,7 @@ public final class GameOfLifeGuidanceTest {
     }
 
     @Test public void
-    a_blinker_blinks() {
+    a_blinker_blinks() throws IOException {
         givenTheInputIs(
                 ".*.",
                 ".*.",
@@ -61,7 +61,7 @@ public final class GameOfLifeGuidanceTest {
         commandLineInput = new StringReader(join(lines));
     }
 
-    private void whenTheGameTicks() {
+    private void whenTheGameTicks() throws IOException {
         Ui ui = createUi();
         ui.tick();
     }

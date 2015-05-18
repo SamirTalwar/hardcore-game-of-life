@@ -1,16 +1,26 @@
 package com.noodlesandwich.gameoflife;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 
+import static com.noodlesandwich.gameoflife.CellPositions.singleCellAt;
+import static com.noodlesandwich.gameoflife.MyUniverse.aUniverseWith;
 import static com.noodlesandwich.gameoflife.MyUniverse.emptyUniverse;
 
 public class StreamedIoRepresentation implements IoRepresentation {
-    public StreamedIoRepresentation(BufferedReader bufferedReader, PrintWriter printWriter) {
+    private final BufferedReader reader;
+
+    public StreamedIoRepresentation(BufferedReader reader, PrintWriter writer) {
+        this.reader = reader;
     }
 
     @Override
-    public Universe deserializeNextUniverse() {
+    public Universe deserializeNextUniverse() throws IOException {
+        String line = reader.readLine();
+        if (line.charAt(0) == 'x') {
+            return aUniverseWith(singleCellAt(0, 0));
+        }
         return emptyUniverse();
     }
 }
