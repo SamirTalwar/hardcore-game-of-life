@@ -29,20 +29,22 @@ public class StreamedIoRepresentation implements IoRepresentation {
             return aUniverseWith(singleCellAt(0, 0));
         }
 
-        CellPositions rowOneCells = CellPositions.nothing();
+        CellPositions cells = CellPositions.nothing();
+
         if (firstLine.charAt(1) == LIVING) {
-            CellPositions firstCell = singleCellAt(1, 0);
-            rowOneCells = rowOneCells.and(firstCell);
-
-            if (firstLine.charAt(2) == LIVING) {
-                rowOneCells = rowOneCells.and(singleCellAt(2, 0));
-            }
-
-            CellPositions rowTwoCells = twoCellsAt(secondLine.indexOf(LIVING), 1);
-            return aUniverseWith(rowOneCells.and(rowTwoCells));
+            cells = cells.and(singleCellAt(1, 0));
         }
 
-        return aUniverseWith(rowOneCells);
+        if (firstLine.charAt(2) == LIVING) {
+            cells = cells.and(singleCellAt(2, 0));
+        }
+
+        if (firstLine.charAt(1) == LIVING) { // ugly, wrong tests
+            CellPositions rowTwoCells = twoCellsAt(secondLine.indexOf(LIVING), 1);
+            cells = cells.and(rowTwoCells);
+        }
+
+        return aUniverseWith(cells);
     }
 
 }
